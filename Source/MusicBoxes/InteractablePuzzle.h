@@ -14,6 +14,8 @@ class MUSICBOXES_API AInteractablePuzzle : public APawn
 {
 	GENERATED_BODY()
 
+protected:
+	
 	UPROPERTY(EditAnywhere, Category = "Components")
 	UCameraComponent* PuzzleViewCamera;
 	
@@ -29,9 +31,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void Interact();
+	virtual void Interact();
 
-private:
+	virtual void LeavePuzzle();
+
+protected:
 	UPROPERTY()
 	APlayerController* PlayerController;
 	

@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "InteractablePuzzle.h"
 #include "PlayerCharacter.generated.h"
 
-class UInputComponent;
 class USkeletalBodySetup;
 class UCameraComponent;
+class UEnhancedInputLocalPlayerSubsystem;
 
 UCLASS()
 class MUSICBOXES_API APlayerCharacter : public ACharacter
@@ -60,9 +61,15 @@ private:
 	UPROPERTY()
 	bool bPossessing = false;
 
+	UPROPERTY()
+	AInteractablePuzzle* Possessed;
+
 	UPROPERTY(EditAnywhere, Category = "Interact")
 	float MaxRange;
 
 	UPROPERTY()
 	APlayerController* PlayerController;
+
+	UPROPERTY()
+	UEnhancedInputLocalPlayerSubsystem* Subsystem;
 };
