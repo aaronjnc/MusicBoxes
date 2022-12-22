@@ -47,6 +47,15 @@ private:
 		int BindingNum = 0;
 	UPROPERTY()
 		UStaticMeshComponent* PossessedHand;
+		
+	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
+	    float HourAngle;
+	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
+		float MinuteAngle;
+	UPROPERTY()
+		float CurrentHourAngle = 0;
+	UPROPERTY()
+		float CurrentMinuteAngle = 0;
 
 	void ClickEvent();
 

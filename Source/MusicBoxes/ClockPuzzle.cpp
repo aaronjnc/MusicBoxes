@@ -86,8 +86,32 @@ void AClockPuzzle::ChangeTime(const FInputActionValue& Value)
 
 	if (PossessedHand != nullptr)
 	{
-		FRotator Rotation = FRotator(0, 0, Dir);
-		PossessedHand->AddLocalRotation(Rotation);
+		const FRotator Rotation = FRotator(0, 0, Dir);
+		PossessedHand->AddRelativeRotation(Rotation);
+		if (PossessedHand == HourHandMesh)
+		{
+			CurrentHourAngle += Dir;
+			CurrentHourAngle = (int)CurrentHourAngle % 360;
+			if (CurrentHourAngle < 0)
+			{
+				CurrentHourAngle += 360;
+			}
+		}
+		else
+		{
+			CurrentMinuteAngle += (int)Dir;
+			CurrentMinuteAngle = (int)CurrentMinuteAngle % 360;
+			if (CurrentMinuteAngle < 0)
+			{
+				CurrentMinuteAngle += 360;
+			}
+		}
+		float HourAngleDiff = FMath::Abs(CurrentHourAngle - HourAngle);
+		float MinuteAngleDiff = FMath::Abs(CurrentMinuteAngle - MinuteAngle);
+		if (HourAngleDiff < 5 && MinuteAngleDiff < 5)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Puzzle Complete"));
+		}
 	}
 }
 
