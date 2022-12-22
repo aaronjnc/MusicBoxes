@@ -37,7 +37,8 @@ void APlayerCharacter::BeginPlay()
 	PlayerController = Cast<APlayerController>(Controller);
 	if (PlayerController)
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
+		if (Subsystem)
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
@@ -92,7 +93,6 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 
 void APlayerCharacter::Interact()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%d"), bPossessing);
 	if (!bPossessing)
 	{
 		FVector Location;
@@ -104,24 +104,26 @@ void APlayerCharacter::Interact()
 		FHitResult Hit;
 		if (GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_Visibility))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *Hit.GetActor()->GetActorNameOrLabel());
 			if (Hit.GetActor()->IsA<AInteractablePuzzle>())
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Interactable Puzzle"));
 			}
-			AInteractablePuzzle* Puzzle = Cast<AInteractablePuzzle>(Hit.GetActor());
-			if (Puzzle != nullptr)
+			Possessed = Cast<AInteractablePuzzle>(Hit.GetActor());
+			if (Possessed != nullptr)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Interact"));
 				FirstPersonCameraComponent->SetActive(false);
-				Puzzle->Interact();
+				Possessed->Interact();
 				bPossessing = true;
 			}
+			Subsystem->RemoveMappingContext(DefaultMappingContext);
 		}
 	}
 	else
 	{
 		PlayerController->SetViewTargetWithBlend(this, 1.f);
+		Possessed->LeavePuzzle();
+		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		bPossessing = false;
 	}
 }

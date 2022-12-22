@@ -38,3 +38,7 @@ void AInteractablePuzzle::Interact()
 	PlayerController->SetViewTargetWithBlend(this, 1.f);
 }
 
+void AInteractablePuzzle::LeavePuzzle()
+{
+	
+}
