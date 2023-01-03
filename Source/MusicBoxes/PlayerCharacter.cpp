@@ -8,6 +8,8 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "MusicBoxPiece.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -43,6 +45,8 @@ void APlayerCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+	InventoryWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), InventoryWidget);
+	InventoryWidgetInstance->AddToViewport();
 }
 
 // Called every frame

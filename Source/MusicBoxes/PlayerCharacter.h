@@ -11,6 +11,7 @@
 class USkeletalBodySetup;
 class UCameraComponent;
 class UEnhancedInputLocalPlayerSubsystem;
+class UUserWidget;
 
 UCLASS()
 class MUSICBOXES_API APlayerCharacter : public ACharacter
@@ -72,4 +73,10 @@ private:
 
 	UPROPERTY()
 	UEnhancedInputLocalPlayerSubsystem* Subsystem;
+	
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> InventoryWidget;
+
+	UPROPERTY()
+		UUserWidget *InventoryWidgetInstance;
 };
