@@ -6,11 +6,13 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InteractablePuzzle.h"
+#include "InventoryWidget.h"
 #include "PlayerCharacter.generated.h"
 
 class USkeletalBodySetup;
 class UCameraComponent;
 class UEnhancedInputLocalPlayerSubsystem;
+class UUserWidget;
 
 UCLASS()
 class MUSICBOXES_API APlayerCharacter : public ACharacter
@@ -72,4 +74,10 @@ private:
 
 	UPROPERTY()
 	UEnhancedInputLocalPlayerSubsystem* Subsystem;
+	
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> InventoryWidget;
+
+	UPROPERTY()
+		UInventoryWidget *InventoryWidgetInstance;
 };
