@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InteractablePuzzle.h"
+#include "InventoryWidget.h"
 #include "PlayerCharacter.generated.h"
 
 class USkeletalBodySetup;
@@ -78,5 +79,5 @@ private:
 		TSubclassOf<UUserWidget> InventoryWidget;
 
 	UPROPERTY()
-		UUserWidget *InventoryWidgetInstance;
+		UInventoryWidget *InventoryWidgetInstance;
 };

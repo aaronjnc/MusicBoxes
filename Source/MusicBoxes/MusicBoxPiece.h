@@ -33,7 +33,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	EPieceType GetPieceType();
+	int GetPieceType();
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Components")

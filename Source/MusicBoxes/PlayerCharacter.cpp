@@ -45,7 +45,7 @@ void APlayerCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	InventoryWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), InventoryWidget);
+	InventoryWidgetInstance = CreateWidget<UInventoryWidget>(GetWorld(), InventoryWidget);
 	InventoryWidgetInstance->AddToViewport();
 }
 
@@ -110,17 +110,22 @@ void APlayerCharacter::Interact()
 		{
 			if (Hit.GetActor()->IsA<AInteractablePuzzle>())
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Interactable Puzzle"));
+				Possessed = Cast<AInteractablePuzzle>(Hit.GetActor());
+				if (Possessed != nullptr)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Interact"));
+					FirstPersonCameraComponent->SetActive(false);
+					Possessed->Interact();
+					bPossessing = true;
+				}
+				Subsystem->RemoveMappingContext(DefaultMappingContext);
 			}
-			Possessed = Cast<AInteractablePuzzle>(Hit.GetActor());
-			if (Possessed != nullptr)
+			else if (Hit.GetActor()->IsA<AMusicBoxPiece>())
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Interact"));
-				FirstPersonCameraComponent->SetActive(false);
-				Possessed->Interact();
-				bPossessing = true;
+				AMusicBoxPiece *Piece = Cast<AMusicBoxPiece>(Hit.GetActor());
+				InventoryWidgetInstance->PickupItem(Piece->GetPieceType());
+				Piece->Destroy();
 			}
-			Subsystem->RemoveMappingContext(DefaultMappingContext);
 		}
 	}
 	else

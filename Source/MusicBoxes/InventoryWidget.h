@@ -21,13 +21,15 @@ public:
 
 	virtual void NativeOnInitialized() override;
 
-private:
-
-	UPROPERTY(EditAnywhere, Category = "Items")
+	void PickupItem(int i);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
 	TArray<UImage *> ImageComponents;
 
-	UPROPERTY(EditAnywhere, Category = "Items")
-		TArray<UTexture2D *> FoundImages;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Items")
+	TArray<UTexture2D *> FoundImages;
+	
+private:
 
 	UPROPERTY(EditAnywhere, Category = "Items")
 		UTexture2D *HiddenImage;

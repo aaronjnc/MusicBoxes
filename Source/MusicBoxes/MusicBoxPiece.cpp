@@ -31,9 +31,18 @@ void AMusicBoxPiece::Tick(float DeltaTime)
 
 }
 
-EPieceType AMusicBoxPiece::GetPieceType()
+int AMusicBoxPiece::GetPieceType()
 {
-	return PieceType;
+	switch (PieceType)
+	{
+		case EPieceType::Ballerina:
+			return 0;
+		case EPieceType::Crank:
+			return 1;
+		default:
+		case EPieceType::Gears:
+			return 2;
+	}
 }
 
 
