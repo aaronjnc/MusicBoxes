@@ -7,6 +7,14 @@
 #include "EnhancedInputComponent.h"
 #include "Components/StaticMeshComponent.h"
 
+void AClockPuzzle::BeginPlay()
+{
+	Super::BeginPlay();
+
+	ClockCenter += GetActorLocation();
+	MoveDist = 2 * ClockCenter.Z / 180;
+}
+
 AClockPuzzle::AClockPuzzle() : AInteractablePuzzle()
 {
 	ClockMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ClockMesh"));
@@ -86,8 +94,9 @@ void AClockPuzzle::ChangeTime(const FInputActionValue& Value)
 
 	if (PossessedHand != nullptr)
 	{
-		const FRotator Rotation = FRotator(0, 0, Dir);
-		PossessedHand->AddRelativeRotation(Rotation);
+		const FRotator Rotation = FRotator(Dir, 0, 0);
+		PossessedHand->AddLocalRotation(Rotation);
+		float CurrentAngle = 0;
 		if (PossessedHand == HourHandMesh)
 		{
 			CurrentHourAngle += Dir;
@@ -96,16 +105,26 @@ void AClockPuzzle::ChangeTime(const FInputActionValue& Value)
 			{
 				CurrentHourAngle += 360;
 			}
+			CurrentAngle = CurrentHourAngle;
 		}
 		else
 		{
-			CurrentMinuteAngle += (int)Dir;
+			CurrentMinuteAngle += Dir;
 			CurrentMinuteAngle = (int)CurrentMinuteAngle % 360;
 			if (CurrentMinuteAngle < 0)
 			{
 				CurrentMinuteAngle += 360;
 			}
+			CurrentAngle = CurrentMinuteAngle;
 		}
+		FVector NewPos = ClockCenter;
+		double SinVal;
+		double CosVal;
+		FMath::SinCos(&SinVal, &CosVal, FMath::DegreesToRadians(CurrentAngle));
+		NewPos.Y += ClockCenter.Z * SinVal;
+		NewPos.Z -= ClockCenter.Z * CosVal;
+		PossessedHand->SetWorldLocation(NewPos);
+		UE_LOG(LogTemp, Warning, TEXT("NewPos: %s, Y Mod: %f, Z Mod: %f Angle: %f"), *NewPos.ToString(), SinVal, CosVal, CurrentAngle);
 		float HourAngleDiff = FMath::Abs(CurrentHourAngle - HourAngle);
 		float MinuteAngleDiff = FMath::Abs(CurrentMinuteAngle - MinuteAngle);
 		if (HourAngleDiff < 5 && MinuteAngleDiff < 5)

@@ -16,6 +16,8 @@ class MUSICBOXES_API AClockPuzzle : public AInteractablePuzzle
 
 public:
 
+	virtual void BeginPlay() override;
+	
 	AClockPuzzle();
 
 	void Interact() override;
@@ -56,6 +58,14 @@ private:
 		float CurrentHourAngle = 0;
 	UPROPERTY()
 		float CurrentMinuteAngle = 0;
+	UPROPERTY(EditAnywhere)
+		FVector ClockCenter;
+	UPROPERTY()
+		float MoveDist;
+	UPROPERTY()
+		float YDirection = 1;
+	UPROPERTY()
+		float ZDirection = 1;
 
 	void ClickEvent();
 
