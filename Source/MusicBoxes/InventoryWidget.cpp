@@ -13,7 +13,6 @@ void UInventoryWidget::NativeConstruct()
 void UInventoryWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	UE_LOG(LogTemp, Warning, TEXT("Initialized"));
 	for (UImage *I : ImageComponents)
 	{
 		if (I)

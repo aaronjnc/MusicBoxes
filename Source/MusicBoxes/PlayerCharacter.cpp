@@ -8,7 +8,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "MusicBoxPiece.h"
+#include "Pickup.h"
+#include "PutTogetherPuzzle.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values
@@ -29,6 +33,8 @@ APlayerCharacter::APlayerCharacter()
 	PlayerMesh->bCastDynamicShadow = false;
 	PlayerMesh->CastShadow = false;
 	PlayerMesh->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
+
+	PhysicsHandle = CreateDefaultSubobject<UPhysicsHandleComponent>(TEXT("Physics Handle"));
 }
 
 // Called when the game starts or when spawned
@@ -53,7 +59,10 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (Pickup)
+	{
+		PhysicsHandle->SetTargetLocationAndRotation(GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation());
+	}
 }
 
 // Called to bind functionality to input
@@ -120,11 +129,32 @@ void APlayerCharacter::Interact()
 				}
 				Subsystem->RemoveMappingContext(DefaultMappingContext);
 			}
-			else if (Hit.GetActor()->IsA<AMusicBoxPiece>())
+			else if (Hit.GetActor()->IsA<APickup>())
 			{
-				AMusicBoxPiece *Piece = Cast<AMusicBoxPiece>(Hit.GetActor());
-				InventoryWidgetInstance->PickupItem(Piece->GetPieceType());
-				Piece->Destroy();
+				if (Pickup)
+					return;
+				Pickup = Cast<APickup>(Hit.GetActor());
+				UPrimitiveComponent *HitComponent = Hit.GetComponent();
+				HitComponent->SetSimulatePhysics(true);
+				HitComponent->WakeAllRigidBodies();
+				PhysicsHandle->GrabComponentAtLocationWithRotation(HitComponent, NAME_None, Hit.ImpactPoint, GetActorRotation());
+			}
+			else if (Hit.GetActor()->IsA<APutTogetherPuzzle>())
+			{
+				if (!Pickup)
+					return;
+				APutTogetherPuzzle *Puzzle = Cast<APutTogetherPuzzle>(Hit.GetActor());
+				if (Puzzle->AddPiece(Pickup->GetPickupType()))
+				{
+					if (Pickup->GetPickupType() == EPickupType::MusicBox)
+					{
+						AMusicBoxPiece *Piece = Cast<AMusicBoxPiece>(Pickup);
+						InventoryWidgetInstance->PickupItem(Piece->GetPieceType());
+					}
+					PhysicsHandle->ReleaseComponent();
+					Pickup->Destroy();
+					Pickup = nullptr;
+				}
 			}
 		}
 	}

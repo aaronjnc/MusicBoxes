@@ -7,12 +7,14 @@
 #include "InputActionValue.h"
 #include "InteractablePuzzle.h"
 #include "InventoryWidget.h"
+#include "Pickup.h"
 #include "PlayerCharacter.generated.h"
 
 class USkeletalBodySetup;
 class UCameraComponent;
 class UEnhancedInputLocalPlayerSubsystem;
 class UUserWidget;
+class UPhysicsHandleComponent;
 
 UCLASS()
 class MUSICBOXES_API APlayerCharacter : public ACharacter
@@ -24,6 +26,9 @@ class MUSICBOXES_API APlayerCharacter : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UCameraComponent* FirstPersonCameraComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UPhysicsHandleComponent *PhysicsHandle;
 
 public:
 	// Sets default values for this character's properties
@@ -80,4 +85,7 @@ private:
 
 	UPROPERTY()
 		UInventoryWidget *InventoryWidgetInstance;
+
+	UPROPERTY()
+		APickup *Pickup;
 };

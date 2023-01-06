@@ -3,28 +3,28 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Pickup.h"
 #include "GameFramework/Actor.h"
-#include "MusicBoxPiece.generated.h"
+#include "Pickup.generated.h"
 
-class UBoxComponent;
+class UStaticMeshComponent;
 
 UENUM(BlueprintType)
-enum class EPieceType : uint8
+enum class EPickupType : uint8
 {
-	Ballerina,
-	Crank,
-	Gears,
+	Star,
+	Ornament,
+	Stocking,
+	MusicBox,
 };
 
 UCLASS()
-class MUSICBOXES_API AMusicBoxPiece : public APickup
+class MUSICBOXES_API APickup : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMusicBoxPiece();
+	APickup();
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,15 +34,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	int GetPieceType();
+	EPickupType GetPickupType();
 
 private:
-	UPROPERTY(EditAnywhere, Category = "Components")
-		UBoxComponent *BoxColliderComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Components")
-		UStaticMeshComponent *MeshComponent;
+		UStaticMeshComponent *PickupMesh;
 
-	UPROPERTY(EditAnywhere)
-		EPieceType PieceType;
+	UPROPERTY(EditAnywhere, Category = "Puzzle Parts")
+		EPickupType PickupType;
+
 };
