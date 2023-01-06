@@ -9,6 +9,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "MusicBoxPiece.h"
+#include "Pickup.h"
 #include "Blueprint/UserWidget.h"
 
 // Sets default values
@@ -125,6 +126,14 @@ void APlayerCharacter::Interact()
 				AMusicBoxPiece *Piece = Cast<AMusicBoxPiece>(Hit.GetActor());
 				InventoryWidgetInstance->PickupItem(Piece->GetPieceType());
 				Piece->Destroy();
+			}
+			else if (Hit.GetActor()->IsA<APickup>())
+			{
+				if (Pickup)
+					return;
+				Pickup = Cast<APickup>(Hit.GetActor());
+				Pickup->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+				
 			}
 		}
 	}

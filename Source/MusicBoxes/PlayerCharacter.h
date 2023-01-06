@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "InteractablePuzzle.h"
 #include "InventoryWidget.h"
+#include "Pickup.h"
 #include "PlayerCharacter.generated.h"
 
 class USkeletalBodySetup;
@@ -80,4 +81,7 @@ private:
 
 	UPROPERTY()
 		UInventoryWidget *InventoryWidgetInstance;
+
+	UPROPERTY()
+		APickup *Pickup;
 };
