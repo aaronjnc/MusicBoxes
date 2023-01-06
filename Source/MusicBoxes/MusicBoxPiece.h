@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Pickup.h"
 #include "GameFramework/Actor.h"
 #include "MusicBoxPiece.generated.h"
 
@@ -17,7 +18,7 @@ enum class EPieceType : uint8
 };
 
 UCLASS()
-class MUSICBOXES_API AMusicBoxPiece : public AActor
+class MUSICBOXES_API AMusicBoxPiece : public APickup
 {
 	GENERATED_BODY()
 	

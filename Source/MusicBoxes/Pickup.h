@@ -6,6 +6,17 @@
 #include "GameFramework/Actor.h"
 #include "Pickup.generated.h"
 
+class UStaticMeshComponent;
+
+UENUM(BlueprintType)
+enum class EPickupType : uint8
+{
+	Star,
+	Ornament,
+	Stocking,
+	MusicBox,
+};
+
 UCLASS()
 class MUSICBOXES_API APickup : public AActor
 {
@@ -22,5 +33,15 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	EPickupType GetPickupType();
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+		UStaticMeshComponent *PickupMesh;
+
+	UPROPERTY(EditAnywhere, Category = "Puzzle Parts")
+		EPickupType PickupType;
 
 };
