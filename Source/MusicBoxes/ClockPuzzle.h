@@ -71,7 +71,7 @@ private:
 
 	UPROPERTY()
 		float ZModifier;
-
+	
 	void ClickEvent();
 
 	void ChangeTime(const FInputActionValue& Value);
