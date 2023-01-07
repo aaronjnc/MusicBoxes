@@ -128,13 +128,12 @@ void AClockPuzzle::ChangeTime(const FInputActionValue& Value)
 		NewPos.Y += ClockCenter.Z * SinVal;
 		NewPos.Z -= ClockCenter.Z * CosVal - ZModifier;
 		PossessedHand->SetWorldLocation(NewPos);
-		//UE_LOG(LogTemp, Warning, TEXT("NewPos: %s, Y Mod: %f, Z Mod: %f Dist: %s"), *NewPos.ToString(), SinVal, CosVal, FVector::Distance(ClockCenter, NewPos));
 		float HourAngleDiff = FMath::Abs(CurrentHourAngle - HourAngle);
 		float MinuteAngleDiff = FMath::Abs(CurrentMinuteAngle - MinuteAngle);
 		if (HourAngleDiff < 5 && MinuteAngleDiff < 5)
 		{
 			RemovableGlass->DestroyComponent();
-			UE_LOG(LogTemp, Warning, TEXT("Solved"));
+			ClockMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 		}
 	}
 }
