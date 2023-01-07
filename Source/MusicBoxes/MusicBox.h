@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "MusicBoxPiece.h"
+#include "PutTogetherPuzzle.h"
 #include "MusicBox.generated.h"
 
 UCLASS()
-class MUSICBOXES_API AMusicBox : public AActor
+class MUSICBOXES_API AMusicBox : public APutTogetherPuzzle
 {
 	GENERATED_BODY()
 	
@@ -23,4 +24,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual bool AddPiece(APickup *Pickup) override;
+	
+	virtual void FinishPuzzle() override;
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = "Puzzle")
+		TArray<EPieceType> PieceTypes;
+
+	UPROPERTY()
+		TMap<EPieceType, USceneComponent *> MusicPieceMap;
 };

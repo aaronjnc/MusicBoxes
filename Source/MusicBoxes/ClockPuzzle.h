@@ -32,6 +32,8 @@ private:
 		UStaticMeshComponent* HourHandMesh;
 	UPROPERTY(EditAnywhere, Category = "Clock Components")
 		UStaticMeshComponent* MinuteHandMesh;
+	UPROPERTY(EditAnywhere, Category = "Clock Components")
+		UStaticMeshComponent* RemovableGlass;
 
 	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
 		UMaterial* HandSelected;
@@ -58,7 +60,7 @@ private:
 		float CurrentHourAngle = 0;
 	UPROPERTY()
 		float CurrentMinuteAngle = 0;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
 		FVector ClockCenter;
 	UPROPERTY()
 		float MoveDist;
@@ -66,6 +68,9 @@ private:
 		float YDirection = 1;
 	UPROPERTY()
 		float ZDirection = 1;
+
+	UPROPERTY()
+		float ZModifier;
 
 	void ClickEvent();
 

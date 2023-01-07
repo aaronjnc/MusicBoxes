@@ -45,4 +45,9 @@ int AMusicBoxPiece::GetPieceType()
 	}
 }
 
+EPieceType AMusicBoxPiece::GetPieceTypeEnum()
+{
+	return PieceType;
+}
+
 

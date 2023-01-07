@@ -24,25 +24,30 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	bool AddPiece(EPickupType PickupType);
+	virtual bool AddPiece(APickup *Pickup);
 
-	void FinishPuzzle();
+	virtual void FinishPuzzle();
 
-private:
+protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UStaticMeshComponent *PuzzleMesh;
-
-	UPROPERTY(EditAnywhere, Category = "Puzzle")
-		TArray<EPickupType> PuzzleTypes;
-
+	
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		TArray<USceneComponent *> StaticMeshes;
-	
-	UPROPERTY()
-		TMap<EPickupType, USceneComponent *> PuzzleMap;
 
 	UPROPERTY()
 		int MeshesLeft;
+
+private:
+	
+	UPROPERTY(EditAnywhere, Category = "Puzzle")
+	TArray<EPickupType> PuzzleTypes;
+
+	UPROPERTY()
+	TMap<EPickupType, USceneComponent *> PuzzleMap;
+
+	UPROPERTY(EditAnywhere, Category = "Puzzle")
+		TArray<AActor *> ActorsToAppear;
 	
 };

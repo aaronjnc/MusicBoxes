@@ -36,6 +36,8 @@ public:
 
 	int GetPieceType();
 
+	EPieceType GetPieceTypeEnum();
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Components")
 		UBoxComponent *BoxColliderComponent;

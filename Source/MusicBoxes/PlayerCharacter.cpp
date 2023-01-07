@@ -144,7 +144,7 @@ void APlayerCharacter::Interact()
 				if (!Pickup)
 					return;
 				APutTogetherPuzzle *Puzzle = Cast<APutTogetherPuzzle>(Hit.GetActor());
-				if (Puzzle->AddPiece(Pickup->GetPickupType()))
+				if (Puzzle->AddPiece(Pickup))
 				{
 					if (Pickup->GetPickupType() == EPickupType::MusicBox)
 					{

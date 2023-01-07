@@ -38,8 +38,9 @@ void APutTogetherPuzzle::Tick(float DeltaTime)
 
 }
 
-bool APutTogetherPuzzle::AddPiece(EPickupType PickupType)
+bool APutTogetherPuzzle::AddPiece(APickup *Pickup)
 {
+	EPickupType PickupType = Pickup->GetPickupType();
 	if (PuzzleMap.Contains(PickupType))
 	{
 		PuzzleMap[PickupType]->SetVisibility(true);
@@ -55,5 +56,8 @@ bool APutTogetherPuzzle::AddPiece(EPickupType PickupType)
 
 void APutTogetherPuzzle::FinishPuzzle()
 {
-	
+	for (AActor *A : ActorsToAppear)
+	{
+		A->SetActorHiddenInGame(false);
+	}
 }
