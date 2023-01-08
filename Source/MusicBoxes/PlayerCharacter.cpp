@@ -6,6 +6,7 @@
 #include "DoorMenu.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Fridge.h"
 #include "InteractablePuzzle.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -198,6 +199,11 @@ void APlayerCharacter::Interact()
 					PlayerController->Pause();
 					Door->PauseGame();
 				}
+			}
+			else if (Hit.GetActor()->IsA<AFridge>())
+			{
+				AFridge *Fridge = Cast<AFridge>(Hit.GetActor());
+				Fridge->Interact();
 			}
 		}
 	}

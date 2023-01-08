@@ -3,9 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ClockPuzzle.h"
 #include "MusicBoxPiece.h"
 #include "PutTogetherPuzzle.h"
 #include "MusicBox.generated.h"
+
+class UAudioComponent;
 
 UCLASS()
 class MUSICBOXES_API AMusicBox : public APutTogetherPuzzle
@@ -35,4 +38,7 @@ private:
 
 	UPROPERTY()
 		TMap<EPieceType, USceneComponent *> MusicPieceMap;
+		
+	UPROPERTY(EditAnywhere, Category = "Components")
+		UAudioComponent *AudioComponent;
 };

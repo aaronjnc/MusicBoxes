@@ -2,6 +2,8 @@
 
 
 #include "MusicBox.h"
+#include "Components/AudioComponent.h"
+
 
 // Sets default values
 AMusicBox::AMusicBox()
@@ -9,6 +11,8 @@ AMusicBox::AMusicBox()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("Music Component"));
+	AudioComponent->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -34,6 +38,7 @@ void AMusicBox::BeginPlay()
 		}
 		StaticMeshes[i]->SetVisibility(false);
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Puzzle Pieces: %d"), PuzzlePiecesLeft);
 }
 
 // Called every frame
@@ -52,8 +57,8 @@ bool AMusicBox::AddPiece(APickup* Pickup)
 		{
 			if (MusicBoxPiece->GetPieceTypeEnum() != EPieceType::Gears)
 				MusicPieceMap[MusicBoxPiece->GetPieceTypeEnum()]->SetVisibility(true);
-			MeshesLeft--;
-			if (MeshesLeft == 0)
+			PuzzlePiecesLeft--;
+			if (PuzzlePiecesLeft == 0)
 			{
 				FinishPuzzle();
 			}
@@ -66,6 +71,7 @@ bool AMusicBox::AddPiece(APickup* Pickup)
 
 void AMusicBox::FinishPuzzle()
 {
+	AudioComponent->Play();
 	UE_LOG(LogTemp, Warning, TEXT("Play Music"));
 }
 
