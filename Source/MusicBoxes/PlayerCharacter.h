@@ -72,6 +72,12 @@ private:
 	AInteractablePuzzle* Possessed;
 
 	UPROPERTY(EditAnywhere, Category = "Interact")
+		TSubclassOf<UUserWidget> InteractWidget;
+
+	UPROPERTY()
+		UUserWidget *InteractWidgetInstance;
+
+	UPROPERTY(EditAnywhere, Category = "Interact")
 	float MaxRange;
 
 	UPROPERTY()

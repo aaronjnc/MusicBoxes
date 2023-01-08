@@ -12,7 +12,7 @@ class UBoxComponent;
 UENUM(BlueprintType)
 enum class EPieceType : uint8
 {
-	Ballerina,
+	Santa,
 	Crank,
 	Gears,
 };

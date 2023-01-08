@@ -23,12 +23,25 @@ void APutTogetherPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 	PuzzleMesh->GetChildrenComponents(true, StaticMeshes);
-	for (int i = 0; i < PuzzleTypes.Num() && i < StaticMeshes.Num(); i++)
+	TArray<FString> TypeNames;
+	for (EPickupType Pickup : PuzzleTypes)
 	{
+		FString EnumName;
+		FString PuzzleName;
+		UEnum::GetValueAsName(Pickup).ToString().Split(TEXT("::"), &EnumName, &PuzzleName);
+		TypeNames.Add(PuzzleName);
+	}
+	for (int i = 0; i < StaticMeshes.Num(); i++)
+	{
+		if (TypeNames.Contains(StaticMeshes[i]->GetName()))
+		{
+			int index = TypeNames.Find(StaticMeshes[i]->GetName());
+			PuzzleMap.Add(PuzzleTypes[index], StaticMeshes[i]);
+		}
 		StaticMeshes[i]->SetVisibility(false);
-		PuzzleMap.Add(PuzzleTypes[i], StaticMeshes[i]);
 	}
 	MeshesLeft = StaticMeshes.Num();
+	PuzzlePiecesLeft = PuzzleTypes.Num();
 }
 
 // Called every frame
@@ -44,9 +57,16 @@ bool APutTogetherPuzzle::AddPiece(APickup *Pickup)
 	if (PuzzleMap.Contains(PickupType))
 	{
 		PuzzleMap[PickupType]->SetVisibility(true);
-		MeshesLeft--;
-		if (MeshesLeft == 0)
+		PuzzlePiecesLeft--;
+		if (PuzzlePiecesLeft == 0)
 		{
+			if (MeshesLeft != 0)
+			{
+				for (USceneComponent *M : StaticMeshes)
+				{
+					M->SetVisibility(true);
+				}
+			}
 			FinishPuzzle();
 		}
 		return true;

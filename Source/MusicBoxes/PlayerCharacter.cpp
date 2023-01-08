@@ -53,6 +53,9 @@ void APlayerCharacter::BeginPlay()
 	}
 	InventoryWidgetInstance = CreateWidget<UInventoryWidget>(GetWorld(), InventoryWidget);
 	InventoryWidgetInstance->AddToViewport();
+	InteractWidgetInstance = CreateWidget<UUserWidget>(GetWorld(), InteractWidget);
+	InteractWidgetInstance->AddToViewport();
+	InteractWidgetInstance->SetVisibility(ESlateVisibility::Hidden);
 }
 
 // Called every frame
@@ -62,6 +65,27 @@ void APlayerCharacter::Tick(float DeltaTime)
 	if (Pickup)
 	{
 		PhysicsHandle->SetTargetLocationAndRotation(GetActorLocation() + GetActorForwardVector() * 100, GetActorRotation());
+	}
+	if (!bPossessing)
+	{
+		FVector Location;
+		FRotator Rotation;
+		Controller->GetPlayerViewPoint(Location, Rotation);
+
+		FVector End = Location + Rotation.Vector() * MaxRange;
+
+		FHitResult Hit;
+		if (GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel2))
+		{
+			if (InteractWidgetInstance->GetVisibility() != ESlateVisibility::Visible)
+			{
+				InteractWidgetInstance->SetVisibility(ESlateVisibility::Visible);
+			}
+		}
+		else if (InteractWidgetInstance->GetVisibility() == ESlateVisibility::Visible)
+		{
+			InteractWidgetInstance->SetVisibility(ESlateVisibility::Hidden);
+		}
 	}
 }
 
@@ -115,14 +139,15 @@ void APlayerCharacter::Interact()
 		FVector End = Location + Rotation.Vector() * MaxRange;
 
 		FHitResult Hit;
-		if (GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_Visibility))
+		if (GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel2))
 		{
+			UE_LOG(LogTemp, Warning, TEXT("Hit Object: %s"), *Hit.GetActor()->GetName());
+			UE_LOG(LogTemp, Warning, TEXT("Hit Component: %s"), *Hit.GetComponent()->GetName());
 			if (Hit.GetActor()->IsA<AInteractablePuzzle>())
 			{
 				Possessed = Cast<AInteractablePuzzle>(Hit.GetActor());
 				if (Possessed != nullptr)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("Interact"));
 					FirstPersonCameraComponent->SetActive(false);
 					Possessed->Interact();
 					bPossessing = true;

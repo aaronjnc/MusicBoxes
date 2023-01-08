@@ -15,11 +15,25 @@ AMusicBox::AMusicBox()
 void AMusicBox::BeginPlay()
 {
 	Super::BeginPlay();
-	for (int i = 0; i < PieceTypes.Num() && i < StaticMeshes.Num(); i++)
+	TArray<FString> TypeNames;
+	for (EPieceType Pickup : PieceTypes)
 	{
-		MusicPieceMap.Add(PieceTypes[i], StaticMeshes[i]);
+		FString EnumName;
+		FString PuzzleName;
+		UEnum::GetValueAsName(Pickup).ToString().Split(TEXT("::"), &EnumName, &PuzzleName);
+		TypeNames.Add(PuzzleName);
+		UE_LOG(LogTemp, Warning, TEXT("Type: %s"), *PuzzleName);
 	}
-	MeshesLeft++;
+	for (int i = 0; i < StaticMeshes.Num(); i++)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Static Mesh: %s"), *StaticMeshes[i]->GetName());
+		if (TypeNames.Contains(StaticMeshes[i]->GetName()))
+		{
+			int index = TypeNames.Find(StaticMeshes[i]->GetName());
+			MusicPieceMap.Add(PieceTypes[index], StaticMeshes[i]);
+		}
+		StaticMeshes[i]->SetVisibility(false);
+	}
 }
 
 // Called every frame
