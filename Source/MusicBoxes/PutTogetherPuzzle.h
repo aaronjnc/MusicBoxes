@@ -39,6 +39,9 @@ protected:
 	UPROPERTY()
 		int MeshesLeft;
 
+	UPROPERTY()
+		int PuzzlePiecesLeft;
+
 private:
 	
 	UPROPERTY(EditAnywhere, Category = "Puzzle")

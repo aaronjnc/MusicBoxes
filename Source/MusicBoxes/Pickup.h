@@ -12,8 +12,13 @@ UENUM(BlueprintType)
 enum class EPickupType : uint8
 {
 	Star,
-	Ornament,
-	Stocking,
+	Gift1,
+	Gift2,
+	Gift3,
+	Stocking1,
+	Stocking2,
+	Stocking3,
+	Cookies,
 	MusicBox,
 };
 

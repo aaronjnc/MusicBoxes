@@ -35,7 +35,7 @@ int AMusicBoxPiece::GetPieceType()
 {
 	switch (PieceType)
 	{
-		case EPieceType::Ballerina:
+		case EPieceType::Santa:
 			return 0;
 		case EPieceType::Crank:
 			return 1;
