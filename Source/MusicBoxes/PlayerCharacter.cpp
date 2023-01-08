@@ -2,6 +2,8 @@
 
 
 #include "PlayerCharacter.h"
+
+#include "DoorMenu.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InteractablePuzzle.h"
@@ -179,6 +181,22 @@ void APlayerCharacter::Interact()
 					PhysicsHandle->ReleaseComponent();
 					Pickup->Destroy();
 					Pickup = nullptr;
+				}
+			}
+			else if (Hit.GetActor()->IsA<ADoorMenu>())
+			{
+				ADoorMenu *Door = Cast<ADoorMenu>(Hit.GetActor());
+				if (PlayerController->IsPaused())
+				{
+					PlayerController->SetShowMouseCursor(false);
+					PlayerController->SetPause(false);
+					Door->UnPauseGame();
+				}
+				else
+				{
+					PlayerController->SetShowMouseCursor(true);
+					PlayerController->Pause();
+					Door->PauseGame();
 				}
 			}
 		}
