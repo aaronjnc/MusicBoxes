@@ -36,6 +36,10 @@ public:
 	virtual void LeavePuzzle();
 
 protected:
+
+	UPROPERTY(EditAnywhere, Category = "Input")
+	class UInputMappingContext* ClockMappingContext;
+	
 	UPROPERTY()
 	APlayerController* PlayerController;
 	

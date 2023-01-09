@@ -4,6 +4,8 @@
 #include "InteractablePuzzle.h"
 
 #include "Camera/CameraComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -35,6 +37,13 @@ void AInteractablePuzzle::Tick(float DeltaTime)
 
 void AInteractablePuzzle::Interact()
 {
+	if (PlayerController)
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(ClockMappingContext, 1);
+		}
+	}
 	PlayerController->SetViewTargetWithBlend(this, 1.f);
 }
 

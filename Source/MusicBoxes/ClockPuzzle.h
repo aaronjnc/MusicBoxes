@@ -40,8 +40,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Puzzle Elements")
 		UMaterial* HandUnselected;
 
-	UPROPERTY(EditAnywhere, Category = "Input")
-		class UInputMappingContext* ClockMappingContext;
+	
 	UPROPERTY(EditAnywhere, Category = "Input")
 		class UInputAction* ClickAction;
 	UPROPERTY(EditAnywhere, Category = "Input")
