@@ -11,7 +11,7 @@ void AClockPuzzle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ClockCenter += GetActorLocation();//HourHandMesh->GetComponentLocation();
+	ClockCenter += GetActorLocation();
 	ZModifier = HourHandMesh->GetRelativeLocation().Z;
 }
 
@@ -38,10 +38,6 @@ void AClockPuzzle::Interact()
 	PlayerController->bShowMouseCursor = true;
 	if (PlayerController)
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(ClockMappingContext, 1);
-		}
 
 		if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerController->InputComponent))
 		{
