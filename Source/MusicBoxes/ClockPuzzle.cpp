@@ -52,7 +52,6 @@ void AClockPuzzle::Interact()
 
 void AClockPuzzle::ClickEvent()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Clicked"));
 	FVector StartLocation;
 	FVector Dir;
 	PlayerController->DeprojectMousePositionToWorld(StartLocation, Dir);
@@ -126,7 +125,7 @@ void AClockPuzzle::ChangeTime(const FInputActionValue& Value)
 		PossessedHand->SetWorldLocation(NewPos);
 		float HourAngleDiff = FMath::Abs(CurrentHourAngle - HourAngle);
 		float MinuteAngleDiff = FMath::Abs(CurrentMinuteAngle - MinuteAngle);
-		if (HourAngleDiff < 5 && MinuteAngleDiff < 5)
+		if (HourAngleDiff < 10 && MinuteAngleDiff < 10)
 		{
 			RemovableGlass->DestroyComponent();
 			ClockMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);

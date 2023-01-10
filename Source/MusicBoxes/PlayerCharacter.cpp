@@ -135,7 +135,6 @@ void APlayerCharacter::Interact()
 {
 	if (!bPossessing)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("not possessing"));
 		FVector Location;
 		FRotator Rotation;
 		Controller->GetPlayerViewPoint(Location, Rotation);
@@ -150,7 +149,6 @@ void APlayerCharacter::Interact()
 				Possessed = Cast<AInteractablePuzzle>(Hit.GetActor());
 				if (Possessed != nullptr)
 				{
-					UE_LOG(LogTemp, Warning, TEXT("possess"));
 					FirstPersonCameraComponent->SetActive(false);
 					Possessed->Interact();
 					bPossessing = true;
@@ -209,7 +207,6 @@ void APlayerCharacter::Interact()
 	}
 	else
 	{
-	    UE_LOG(LogTemp, Warning, TEXT("Unpossess"));
 		PlayerController->SetViewTargetWithBlend(this, 1.f);
 		Possessed->LeavePuzzle();
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);

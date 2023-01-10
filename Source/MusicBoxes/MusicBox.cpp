@@ -30,7 +30,6 @@ void AMusicBox::BeginPlay()
 	}
 	for (int i = 0; i < StaticMeshes.Num(); i++)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Static Mesh: %s"), *StaticMeshes[i]->GetName());
 		if (TypeNames.Contains(StaticMeshes[i]->GetName()))
 		{
 			int index = TypeNames.Find(StaticMeshes[i]->GetName());
@@ -38,7 +37,6 @@ void AMusicBox::BeginPlay()
 		}
 		StaticMeshes[i]->SetVisibility(false);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Puzzle Pieces: %d"), PuzzlePiecesLeft);
 }
 
 // Called every frame
